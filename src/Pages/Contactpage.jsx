@@ -3,7 +3,6 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import contactbg from "../assets/con-3.avif";
 import ContactSection from "../Components/ContactSection";
-import BankDetailsSection from "../Components/BankDetailsSection"; // Itha inga add panren
 
 function Contactpage() {
   return (
@@ -25,8 +24,7 @@ function Contactpage() {
         </div>
       </div>
 
-      <ContactSection />
-      <BankDetailsSection /> {/* Itha inga add panren */}
+      <ContactSection /> {/* Itha inga add panren */}
       <Footer />
     </div>
   );
