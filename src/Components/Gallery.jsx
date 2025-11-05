@@ -80,30 +80,28 @@ const Gallery = () => {
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 transition-opacity duration-300"
             onClick={closeModal}
           >
-            <motion.div
-              initial={{scale: 0.9, opacity: 0}}
-              animate={{scale: 1, opacity: 1}}
-              exit={{scale: 0.9, opacity: 0}}
-              transition={{duration: 0.3}}
-              className="relative max-w-3xl w-full bg-white rounded-lg overflow-hidden"
+            <div
+              className={`relative max-w-3xl w-full bg-white rounded-lg overflow-hidden transform transition-all duration-300 ${modalOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"
+                }`}
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-white/70 text-black rounded-full shadow-lg transition-all duration-300 text-2xl font-bold hover:bg-white hover:text-red-600 z-10"
+                className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-red-200 text-red-500 rounded-full shadow-lg transition-all duration-300 text-2xl font-bold hover:bg-red-300 hover:text-red-600"
                 onClick={closeModal}
                 aria-label="Close Modal"
               >
                 &times;
               </button>
+
               <img
                 src={selectedImage.image}
                 alt={selectedImage.title}
-                className="w-full h-auto max-h-[80vh] object-contain" // Constrain image height
+                className="w-full h-auto object-cover"
               />
-              <div className="p-4 text-center bg-white">
+              <div className="p-4 text-center">
                 <h3 className="text-xl font-semibold">{selectedImage.title}</h3>
               </div>
-            </motion.div>
+            </div>
           </div>
         )}
       </div>
