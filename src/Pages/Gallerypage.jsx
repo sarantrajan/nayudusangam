@@ -6,22 +6,19 @@ import Gallery from "../Components/Gallery";
 
 function Gallerypage() {
   return (
-    <div>
+    <div className="overflow-x-hidden"> {/* FIXED: Prevents horizontal scroll */}
       <Navbar />
       <div
-        className="relative h-[40vh] sm:h-[60vh] md:h-[90vh] flex items-center justify-center overflow-hidden bg-cover bg-center p-4 sm:p-6 md:p-8"
+        className="relative h-[40vh] sm:h-[60vh] flex items-center justify-center overflow-hidden bg-cover bg-center p-4 mt-[72px] sm:mt-[80px]" // Navbar height ku adjust pannirukken
         style={{ backgroundImage: `url(${bg1})` }}
       >
-        {/* Optional Overlay */}
         <div className="absolute inset-0 bg-black/10"></div>
-
-        {/* Content */}
-        <div className="relative text-center text-white max-w-3xl px-4">
+        <div className="relative text-center text-white max-w-3xl mx-auto px-4"> {/* Added mx-auto */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             Gallery
           </h1>
           <p className="mt-4 text-sm sm:text-base md:text-lg text-gray-200">
-            Moments captured from  Tamizhaga Naidu Koottamaippu Arakattali.
+            Moments captured from Tamizhaga Naidu Koottamaippu Arakattali.
           </p>
         </div>
       </div>

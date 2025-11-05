@@ -14,12 +14,12 @@ export default function OurStory() {
 
   return (
     <section
-      className="py-20 px-6 bg-gradient-to-br from-[#e6f7f1] via-[#ffffff] to-[#d2f1dc]"
+      className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-br from-[#e6f7f1] via-[#ffffff] to-[#d2f1dc] overflow-hidden" // FIXED: Added overflow, padding
       id="our-story"
     >
       {/* Title */}
       <motion.h2
-        className="text-4xl md:text-5xl font-bold text-[#004d00] mb-12 text-center drop-shadow-md"
+        className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#004d00] mb-12 text-center drop-shadow-md"
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
@@ -38,14 +38,11 @@ export default function OurStory() {
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
         >
+          {/* FIXED: Removed fixed style, added responsive classes */}
           <motion.img
             src={storyImg}
             alt="Our Story"
-            className="rounded-3xl shadow-2xl object-cover border-[6px] border-[#006400] hover:border-[#00a651] transition-all duration-500"
-            style={{
-              width: "600px",
-              height: "400px",
-            }}
+            className="rounded-3xl shadow-2xl object-cover border-[6px] border-[#006400] hover:border-[#00a651] transition-all duration-500 w-full max-w-lg h-auto aspect-video" // Responsive
             loading="lazy"
             whileHover={{ scale: 1.05, rotate: 1 }}
             transition={{ type: "spring", stiffness: 80, damping: 3 }}
@@ -55,7 +52,7 @@ export default function OurStory() {
         {/* Right Side - Text Content */}
         <div className="text-center md:text-left flex flex-col justify-center space-y-6">
           <motion.p
-            className="text-lg text-gray-700 leading-relaxed text-justify"
+            className="text-base sm:text-lg text-gray-700 leading-relaxed text-justify"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
@@ -70,11 +67,9 @@ export default function OurStory() {
             சமூகத்தில் கல்வி, தொழில், மற்றும் பொருளாதார வளர்ச்சி அடைய ஏற்ற
             சூழலை உருவாக்குவது எங்கள் முக்கிய நோக்கம்.
           </motion.p>
-
-         
-
+          {/* ... (matha <p> tags appadiye irukkattum) ... */}
           <motion.p
-            className="text-lg text-gray-700 leading-relaxed text-justify"
+            className="text-base sm:text-lg text-gray-700 leading-relaxed text-justify"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
@@ -86,9 +81,8 @@ export default function OurStory() {
             தொடர்ந்து செய்து வருகிறது. நாயுடு சமூகத்தின் இளம் தலைமுறையினருக்கு
             தன்னம்பிக்கை மற்றும் தலைமைத்துவ திறனை வளர்ப்பதே எங்கள் நோக்கம்.
           </motion.p>
-
-          <motion.p
-            className="text-lg text-gray-700 leading-relaxed text-justify"
+           <motion.p
+            className="text-base sm:text-lg text-gray-700 leading-relaxed text-justify"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
@@ -100,9 +94,8 @@ export default function OurStory() {
             கொண்டுள்ளது. கல்வி, தொழில் வளர்ச்சி மற்றும் பெண்கள் முன்னேற்றம்
             போன்ற துறைகளிலும் நாங்கள் செயல்படுகின்றோம்.
           </motion.p>
-
-          <motion.p
-            className="text-lg text-gray-700 leading-relaxed text-justify"
+           <motion.p
+            className="text-base sm:text-lg text-gray-700 leading-relaxed text-justify"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
@@ -115,7 +108,6 @@ export default function OurStory() {
             நம் சமூகத்தின் ஒவ்வொரு நபரும் தங்கள் திறமையால் உயர்வதற்கு
             வழிவகுப்பதே எங்கள் பணி.
           </motion.p>
-
           <motion.p
             className="text-lg font-semibold text-[#004d00] text-center md:text-left italic"
             variants={fadeUp}
