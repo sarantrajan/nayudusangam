@@ -53,38 +53,52 @@ export default function JoinUs() {
       return;
     }
     setSubmitted(true);
-    const currentIdNumber = parseInt(formData.id.replace("NS", ""));
+    const currentIdNumber = parseInt(formData.id.replace("TNK", ""));
     localStorage.setItem("lastMemberId", currentIdNumber);
   };
 
   const handleDownloadPDF = () => {
-    const element = document.querySelector(".id-card-landscape");
-    if (!element) {
-      alert("ID card element not found!");
-      return;
-    }
+  const element = document.querySelector(".id-card-landscape");
+  if (!element) {
+    alert("ID card element not found!");
+    return;
+  }
 
-    // Wait until the image is ready
-    if (!photoBase64) {
-      alert("Photo still loading. Please wait a second and try again.");
-      return;
-    }
+  if (!photoBase64) {
+    alert("Photo still loading. Please wait a second and try again.");
+    return;
+  }
 
-    html2canvas(element, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: "#ffffff", // Safe background
-    }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "px",
-        format: [canvas.width, canvas.height],
-      });
-      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
-      pdf.save(`${formData.name || "User"}_NaiduSangam_ID.pdf`);
+  html2canvas(element, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: "#ffffff",
+  }).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png");
+
+    // Always create PDF in portrait (vertical)
+    const pdf = new jsPDF({
+      orientation: "portrait", // ✅ Force vertical orientation
+      unit: "px",
+      format: [canvas.width, canvas.height],
     });
-  };
+
+    // Fit the image into the PDF page height (auto-scale width)
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // Calculate scale to fit vertically
+    const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+    const imgWidth = canvas.width * ratio;
+    const imgHeight = canvas.height * ratio;
+    const x = (pageWidth - imgWidth) / 2;
+    const y = (pageHeight - imgHeight) / 2;
+
+    pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
+    pdf.save(`${formData.name || "User"}_NaiduSangam_ID.pdf`);
+  });
+};
+
 
 
   return (
@@ -180,7 +194,7 @@ export default function JoinUs() {
           ) : (
             <div className="text-center">
               <h2 className="text-red-700 font-bold mb-4 text-2xl sm:text-3xl">
-                நாயுடு கூட்டமைப்பு உறுப்பினர் அட்டை
+                தமிழக நாயுடு கூட்டமைப்பு உறுப்பினர் அட்டை
               </h2>
 
               <div
@@ -193,7 +207,7 @@ export default function JoinUs() {
               >
                 {/* Header */}
                 <div
-                  className="flex items-center justify-start p-3 sm:p-4"
+                  className="flex items-center justify-center p-3 sm:p-4"
                   style={{ backgroundColor: "#b91c1c", color: "#ffffff" }}
                 >
                   <img
@@ -222,7 +236,7 @@ export default function JoinUs() {
                   style={{ color: "#1f2937" }}
                 >
                   <div
-                    className="w-full sm:w-1/3 flex flex-col items-center justify-start mb-4 sm:mb-0"
+                    className="w-full sm:w-1/3 flex flex-col items-center justify-center mb-4 sm:mb-0"
                   >
                     {photoPreview && (
                       <img
@@ -252,17 +266,24 @@ export default function JoinUs() {
 
                   <div
                     className="w-full sm:w-2/3 text-left sm:pl-5 space-y-2"
-                    style={{ fontSize: "0.9rem" }}
+                    style={{
+                      fontSize: "0.9rem",
+                      display: "grid",
+                      gridTemplateColumns: "170px 1fr", 
+                      columnGap: "8px",
+                      alignItems: "center",
+                    }}
                   >
-                    <p><strong>பெயர்:</strong> {formData.name}</p>
-                    <p><strong>தந்தையின் பெயர்:</strong> {formData.fatherName}</p>
-                    <p><strong>வயது:</strong> {formData.age}</p>
-                    <p><strong>பிறந்த தேதி:</strong> {formData.dob}</p>
-                    <p><strong>மாவட்டம்:</strong> {formData.district}</p>
-                    <p><strong>மாநிலம்:</strong> {formData.state}</p>
-                    <p><strong>ஊர்:</strong> {formData.city}</p>
-                    <p><strong>மொபைல்:</strong> {formData.mobile}</p>
+                    <p><strong>பெயர்:</strong></p> <p>{formData.name}</p>
+                    <p><strong>தந்தையின் பெயர்:</strong></p> <p>{formData.fatherName}</p>
+                    <p><strong>வயது:</strong></p> <p>{formData.age}</p>
+                    <p><strong>பிறந்த தேதி:</strong></p> <p>{formData.dob}</p>
+                    <p><strong>மாவட்டம்:</strong></p> <p>{formData.district}</p>
+                    <p><strong>மாநிலம்:</strong></p> <p>{formData.state}</p>
+                    <p><strong>ஊர்:</strong></p> <p>{formData.city}</p>
+                    <p><strong>மொபைல்:</strong></p> <p>{formData.mobile}</p>
                   </div>
+
                 </div>
 
                 {/* Footer */}
