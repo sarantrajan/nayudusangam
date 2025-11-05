@@ -6,7 +6,6 @@ import Contactpage from './Pages/Contactpage';
 import JoinUs from './Pages/JoinUs';
 import ScrollToTop from './Components/ScrollToTop';
 import Aboutpage from './Pages/Aboutpage';
-import MembersPage from './Pages/MembersPage';
 
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
         <Route path="/gallery" element={<Gallerypage />} />
         <Route path="/contact" element={<Contactpage />} />
         <Route path="/joinus" element={<JoinUs />} />
-        <Route path="/members" element={<MembersPage />} />
       </Routes>
     </Router>
   )
