@@ -53,7 +53,7 @@ export default function JoinUs() {
       return;
     }
     setSubmitted(true);
-    const currentIdNumber = parseInt(formData.id.replace("NS", ""));
+    const currentIdNumber = parseInt(formData.id.replace("TNK", ""));
     localStorage.setItem("lastMemberId", currentIdNumber);
   };
 
@@ -255,8 +255,7 @@ export default function JoinUs() {
                     style={{
                       fontSize: "0.9rem",
                       display: "grid",
-                      gridTemplateColumns: "170px 1fr", 
-                      columnGap: "8px",
+                      gridTemplateColumns: "200px 1fr",
                       alignItems: "center",
                     }}
                   >
