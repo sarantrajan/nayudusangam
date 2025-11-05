@@ -51,10 +51,9 @@ export default function Footer() {
           </div>
 
           {/* Site Links */}
-          {/* FIXED: Removed 'relative left-12'. Added 'items-center md:items-start' */}
-          <div className="text-center md:text-left flex flex-col items-center md:items-start">
+          <div className="text-center md:text-left flex flex-col items-center md:items-start relative left-12">
             <h2 className="text-xl font-bold mb-6 text-white">Site Links</h2>
-            <ul className="flex flex-col space-y-3"> {/* Removed items-center md:items-start */}
+            <ul className="flex flex-col space-y-3">
               {siteLinks.map((link, index) => (
                 <li key={index}>
                   <Link
@@ -69,8 +68,7 @@ export default function Footer() {
           </div>
 
           {/* Contact Info */}
-          {/* FIXED: Removed 'relative right-15'. Added 'items-center md:items-start' */}
-          <div className="text-center md:text-left flex flex-col items-center md:items-start">
+          <div className="text-center md:text-left flex flex-col items-center md:items-start relative right-15">
             <h2 className="text-xl font-bold mb-6 text-white">
               Have a Question?
             </h2>
@@ -100,13 +98,13 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Google Map */}
-          <div className="text-center md:text-left">
-            <h2 className="text-xl font-bold mb-6 text-white">Our Location</h2>
-            <div className="w-full h-52 rounded-xl overflow-hidden shadow-lg border border-white/20 max-w-xs mx-auto md:max-w-none"> {/* Max width on mobile */}
+          {/* 🌍 Google Map */}
+          <div>
+            <h2 className="text-xl font-bold mb-6 text-white text">Our Location</h2>
+            <div className="w-full h-52 boxrounded-xl overflow-hidden shadow-lg border border-white/20">
               <iframe
                 title="Google Map"
-                src="http://googleusercontent.com/maps/google.com/0"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7860.385672632513!2d78.11417655487249!3d9.917891963586978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c5813dad3275%3A0x5485900c4aef444f!2sNo%20209%2C%20Nethaji%20Rd%2C%20Madurai%20Main%2C%20Madurai%2C%20Tamil%20Nadu%20625001!5e0!3m2!1sen!2sin!4v1761801815071!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
