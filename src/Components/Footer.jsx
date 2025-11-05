@@ -14,20 +14,18 @@ export default function Footer() {
     <footer className="relative bg-gray-900 text-white">
       <div className="absolute inset-0 bg-black/50"></div>
 
-      <div className="relative container mx-auto px-6 py-12"> {/* Responsive padding */}
-        {/* FIXED: Added text-center md:text-left to all columns */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10"> {/* Increased gap */}
+      <div className="relative container mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           
           {/* About Us */}
           <div className="text-center md:text-left">
             <h2 className="text-xl font-bold mb-4 text-white">About Us</h2>
-            <p className="text-sm leading-relaxed text-gray-300"> {/* Lighter text */}
+            <p className="text-sm leading-relaxed text-gray-300">
               Tamizhaga Naidu Koottamaippu Foundation was established in{" "}
               <span className="text-red-500 font-semibold">2025</span> to unite
               and uplift the Naidu community. We work for education, employment,
               and social growth while preserving our culture and traditions.
             </p>
-            {/* Social Icons (Center on mobile, left on desktop) */}
             <div className="flex space-x-4 mt-4 justify-center md:justify-start">
               <a
                 href="#"
@@ -51,9 +49,9 @@ export default function Footer() {
           </div>
 
           {/* Site Links */}
-          <div className="text-center md:text-left flex flex-col items-center md:items-start relative left-12">
+          <div className="text-center md:text-left flex flex-col items-center md:items-start">
             <h2 className="text-xl font-bold mb-6 text-white">Site Links</h2>
-            <ul className="flex flex-col space-y-3">
+            <ul className="flex flex-col space-y-3"> {/* Removed items-center md:items-start */}
               {siteLinks.map((link, index) => (
                 <li key={index}>
                   <Link
@@ -68,12 +66,12 @@ export default function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div className="text-center md:text-left flex flex-col items-center md:items-start relative right-15">
+          <div className="text-center md:text-left flex flex-col items-center md:items-start">
             <h2 className="text-xl font-bold mb-6 text-white">
               Have a Question?
             </h2>
-            <ul className="space-y-4 text-sm text-gray-300"> {/* Increased space, Lighter text */}
-              <li className="flex items-start max-w-xs mx-auto md:mx-0"> {/* Constrain width on mobile */}
+            <ul className="space-y-4 text-sm text-gray-300">
+              <li className="flex items-start max-w-xs mx-auto md:mx-0">
                 <MapPin className="w-5 h-5 mr-3 mt-1 text-red-500 flex-shrink-0" />
                 <span>No: 209, Nethaji Road, Madurai, Tamil Nadu – 625001</span>
               </li>
@@ -90,7 +88,7 @@ export default function Footer() {
                 <span className="text-red-500 mr-3 text-lg flex-shrink-0">📧</span>
                 <a
                   href="mailto:tamizhaganaidukoottamaippu@gmail.com"
-                  className="hover:text-white transition break-all" // Allow email to break
+                  className="hover:text-white transition break-all" 
                 >
                   tamizhaganaidukoottamaippu@gmail.com
                 </a>
@@ -98,7 +96,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* 🌍 Google Map */}
+                    {/* 🌍 Google Map */}
           <div>
             <h2 className="text-xl font-bold mb-6 text-white text">Our Location</h2>
             <div className="w-full h-52 boxrounded-xl overflow-hidden shadow-lg border border-white/20">

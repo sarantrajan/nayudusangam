@@ -422,14 +422,14 @@ const SuccessGallery = () => {
             </motion.div>
 
             
-  {/* Short Desc */}
-  <div className="h-[280px] md:w-[60%] bg-white/80 p-8 rounded-3xl shadow-lg border border-[#ffe2c9] text-justify">
-    <p className="text-gray-700 text-lg leading-relaxed font-medium">
+ {/* Short Desc */}
+  <div className="w-full md:w-[60%] bg-white/80 p-6 sm:p-8 rounded-3xl shadow-lg border border-[#ffe2c9] text-justify flex flex-col min-h-[280px]">
+    <p className="text-gray-700 text-base sm:text-lg leading-relaxed font-medium flex-grow">
       {leader.desc.slice(0, 300)}...
     </p>
     <button
       onClick={() => setSelected(leader)}
-      className="mt-3 text-[#e65e10ff] font-semibold underline hover:text-[#b84b0e]"
+      className="mt-4 text-[#e65e10ff] font-semibold underline hover:text-[#b84b0e] self-start"
     >
       Read More
     </button>
