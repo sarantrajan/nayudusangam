@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Upload, Download } from "lucide-react";
 import html2pdf from "html2pdf.js";
 import { motion } from "framer-motion";
-import Navbar from "../components/Navbar.Jsx";
+import Navbar from "../Components/Navbar";
 import logo2 from "../assets/logo-2.png";
 
 export default function JoinUs() {
