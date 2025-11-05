@@ -58,47 +58,33 @@ export default function JoinUs() {
   };
 
   const handleDownloadPDF = () => {
-  const element = document.querySelector(".id-card-landscape");
-  if (!element) {
-    alert("ID card element not found!");
-    return;
-  }
+    const element = document.querySelector(".id-card-landscape");
+    if (!element) {
+      alert("ID card element not found!");
+      return;
+    }
 
-  if (!photoBase64) {
-    alert("Photo still loading. Please wait a second and try again.");
-    return;
-  }
+    // Wait until the image is ready
+    if (!photoBase64) {
+      alert("Photo still loading. Please wait a second and try again.");
+      return;
+    }
 
-  html2canvas(element, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: "#ffffff",
-  }).then((canvas) => {
-    const imgData = canvas.toDataURL("image/png");
-
-    // Always create PDF in portrait (vertical)
-    const pdf = new jsPDF({
-      orientation: "portrait", // ✅ Force vertical orientation
-      unit: "px",
-      format: [canvas.width, canvas.height],
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff", // Safe background
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [canvas.width, canvas.height],
+      });
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+      pdf.save(`${formData.name || "User"}_NaiduSangam_ID.pdf`);
     });
-
-    // Fit the image into the PDF page height (auto-scale width)
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    // Calculate scale to fit vertically
-    const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-    const imgWidth = canvas.width * ratio;
-    const imgHeight = canvas.height * ratio;
-    const x = (pageWidth - imgWidth) / 2;
-    const y = (pageHeight - imgHeight) / 2;
-
-    pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
-    pdf.save(`${formData.name || "User"}_NaiduSangam_ID.pdf`);
-  });
-};
-
+  };
 
 
   return (
