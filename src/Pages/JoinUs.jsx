@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Upload, Download } from "lucide-react";
-import html2pdf from "html2pdf.js";
-import { motion } from "framer-motion";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import Navbar from "../Components/Navbar";
 import logo2 from "../assets/logo-2.png";
 
 export default function JoinUs() {
-  const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [photoBase64, setPhotoBase64] = useState(null);
 
   const getNextId = () => {
     const lastId = localStorage.getItem("lastMemberId");
@@ -14,7 +15,7 @@ export default function JoinUs() {
   };
 
   const [formData, setFormData] = useState({
-    id: `NS${getNextId()}`,
+    id: `TNK${getNextId()}`,
     name: "",
     fatherName: "",
     age: "",
@@ -27,18 +28,27 @@ export default function JoinUs() {
 
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    return () => {
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+    };
+  }, [photoPreview]);
+
   const handlePhotoUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (photoPreview) URL.revokeObjectURL(photoPreview);
+      setPhotoPreview(URL.createObjectURL(file));
+
       const reader = new FileReader();
-      reader.onloadend = () => setPhoto(reader.result);
+      reader.onloadend = () => setPhotoBase64(reader.result);
       reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!photo) {
+    if (!photoPreview) {
       alert("Please upload a photo.");
       return;
     }
@@ -54,36 +64,42 @@ export default function JoinUs() {
       return;
     }
 
-    // FIXED: PDF size 'pt' la irunthu 'px' ku maathiyachu
-    const width = element.offsetWidth;
-    const height = element.offsetHeight;
+    // Wait until the image is ready
+    if (!photoBase64) {
+      alert("Photo still loading. Please wait a second and try again.");
+      return;
+    }
 
-    const opt = {
-      margin: 0,
-      filename: `${formData.name || "User"}_NaiduSangam_ID.pdf`,
-      image: { type: "png", quality: 1 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-      },
-      jsPDF: {
-        unit: "px", // 'pt' illama 'px' use pannurom
-        format: [width, height],
-        orientation: width > height ? "landscape" : "portrait",
-      },
-    };
-
-    html2pdf().set(opt).from(element).save();
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff", // Safe background
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [canvas.width, canvas.height],
+      });
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+      pdf.save(`${formData.name || "User"}_NaiduSangam_ID.pdf`);
+    });
   };
 
+
   return (
-    <div className="min-h-screen bg-gray-100 overflow-x-hidden"> {/* FIXED: Overflow add panniyachu */}
+    <div className="min-h-screen bg-gray-100 overflow-x-hidden">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-red-700 to-orange-600 text-white py-16 mt-[72px] sm:mt-[80px] transition-all duration-700"> {/* FIXED: Navbar height */}
+      {/* ✅ FIXED: Replaced Tailwind gradient with hex-based linear-gradient */}
+      <section
+        style={{
+          background: "linear-gradient(to right, #b91c1c, #ea580c)",
+        }}
+        className="text-white py-16 mt-[72px] sm:mt-[80px] transition-all duration-700"
+      >
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3"> {/* Responsive text */}
+          <h1 className="text-3xl md:text-4xl font-bold mb-3">
             {submitted
               ? "தமிழக நாயுடு கூட்டமைப்பில் இணைந்ததற்கு நன்றி!! 🙏"
               : "தமிழக நாயுடு கூட்டமைப்பில் இணையவும்"}
@@ -96,16 +112,14 @@ export default function JoinUs() {
         </div>
       </section>
 
-      {/* Form / Preview */}
       <section className="py-12">
         <div className="container mx-auto px-4">
           {!submitted ? (
-            <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-2xl p-6 sm:p-8 border border-gray-200"> {/* Responsive padding */}
+            <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-2xl p-6 sm:p-8 border border-gray-200">
               <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
                 உறுப்பினர் விண்ணப்பம்
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Form fields appadiye irukkattum */}
                 {[
                   { label: "Full Name *", name: "name", type: "text" },
                   { label: "Father’s Name *", name: "fatherName", type: "text" },
@@ -127,11 +141,11 @@ export default function JoinUs() {
                       onChange={(e) =>
                         setFormData({ ...formData, [field.name]: e.target.value })
                       }
-                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-500 outline-none" // Increased padding
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-orange-500 outline-none"
                     />
                   </div>
                 ))}
-                {/* Photo Upload */}
+
                 <div>
                   <label className="block text-gray-700 font-medium mb-1">
                     Upload Photo *
@@ -142,7 +156,7 @@ export default function JoinUs() {
                   >
                     <Upload className="w-5 h-5 text-gray-600" />
                     <span className="text-sm text-gray-600">
-                      {photo ? "Change Photo" : "Click to upload photo"}
+                      {photoPreview ? "Change Photo" : "Click to upload photo"}
                     </span>
                   </label>
                   <input
@@ -154,7 +168,7 @@ export default function JoinUs() {
                     className="hidden"
                   />
                 </div>
-                {/* Submit Button */}
+
                 <button
                   type="submit"
                   className="w-full bg-gradient-to-r from-red-600 to-orange-500 text-white py-3 rounded-lg font-semibold hover:scale-105 transition"
@@ -164,99 +178,116 @@ export default function JoinUs() {
               </form>
             </div>
           ) : (
-            // ID Card Display
             <div className="text-center">
-              <h2 className="text-red-700 font-bold mb-4 text-2xl sm:text-3xl"> {/* Responsive text */}
+              <h2 className="text-red-700 font-bold mb-4 text-2xl sm:text-3xl">
                 நாயுடு கூட்டமைப்பு உறுப்பினர் அட்டை
               </h2>
 
-              {/* FIXED: Responsive ID Card */}
-              <motion.div
-                initial={{ rotateY: 60, opacity: 0 }}
-                animate={{ rotateY: 0, opacity: 1 }}
-                transition={{ duration: 1.2, ease: "easeOut" }}
-                whileHover={{
-                  boxShadow:
-                    "0 20px 40px rgba(255, 0, 0, 0.5), 0 0 50px rgba(255, 165, 0, 0.4)",
+              <div
+                className="id-card-landscape mx-auto shadow-2xl rounded-xl overflow-hidden w-full max-w-[600px] h-auto"
+                style={{
+                  background: "linear-gradient(to bottom right, #ffffff, #ffedd5)",
+                  border: "4px solid #b91c1c",
+                  color: "#1f2937",
                 }}
-                className="id-card-landscape mx-auto bg-gradient-to-br from-white to-orange-100 shadow-2xl rounded-xl overflow-hidden border-4 border-red-600 transform perspective-1000 w-full max-w-[600px] h-auto" // Fixed width neekiyachu
-                // style prop removed
               >
-                {/* Header (Responsive) */}
-                <div className="flex items-center justify-start bg-red-700 text-white p-3 sm:p-4">
+                {/* Header */}
+                <div
+                  className="flex items-center justify-start p-3 sm:p-4"
+                  style={{ backgroundColor: "#b91c1c", color: "#ffffff" }}
+                >
                   <img
                     src={logo2}
                     alt="Logo-2"
-                    className="w-12 h-12 sm:w-16 sm:h-16 object-contain bg-white rounded-full mr-3 sm:mr-4 p-1 shadow-lg" // Responsive size
+                    style={{
+                      width: "4rem",
+                      height: "4rem",
+                      backgroundColor: "#ffffff",
+                      borderRadius: "50%",
+                      padding: "4px",
+                      marginRight: "0.75rem",
+                      objectFit: "contain",
+                    }}
                   />
                   <div>
-                    <h5 className="text-base sm:text-lg font-bold leading-tight text-left"> {/* Responsive text */}
+                    <h5 style={{ fontSize: "1rem", fontWeight: "bold", lineHeight: "1.3" }}>
                       தமிழக நாயுடு கூட்டமைப்பு அறக்கட்டளை<br /> (மதுரை)
                     </h5>
                   </div>
                 </div>
 
-                {/* Body (Responsive) */}
-                <div className="flex flex-col sm:flex-row p-4 sm:p-5"> {/* flex-col on mobile */}
-                  <div className="w-full sm:w-1/3 flex flex-col items-center justify-start mb-4 sm:mb-0"> {/* Mobile layout */}
-                    {photo && (
+                {/* Body */}
+                <div
+                  className="flex flex-col sm:flex-row p-4 sm:p-5"
+                  style={{ color: "#1f2937" }}
+                >
+                  <div
+                    className="w-full sm:w-1/3 flex flex-col items-center justify-start mb-4 sm:mb-0"
+                  >
+                    {photoPreview && (
                       <img
-                        src={photo}
+                        src={photoPreview}
                         alt="Member"
-                        className="w-28 h-28 sm:w-32 sm:h-32 object-cover rounded-lg border-4 border-red-500 shadow-md" // Responsive size
+                        style={{
+                          width: "8rem",
+                          height: "8rem",
+                          objectFit: "cover",
+                          borderRadius: "0.5rem",
+                          border: "4px solid #b91c1c",
+                          boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                        }}
                       />
                     )}
-                    <p className="mt-3 font-bold text-gray-700 text-sm">
+                    <p
+                      style={{
+                        marginTop: "0.75rem",
+                        fontWeight: "bold",
+                        color: "#374151",
+                        fontSize: "0.9rem",
+                      }}
+                    >
                       ID: {formData.id}
                     </p>
                   </div>
 
-                  <div className="w-full sm:w-2/3 text-left sm:pl-5 space-y-2 text-gray-800 text-sm"> {/* Mobile layout */}
-                    <p>
-                      <span className="font-semibold">பெயர்:</span> {formData.name}
-                    </p>
-                    <p>
-                      <span className="font-semibold">தந்தையின் பெயர்:</span>{" "}
-                      {formData.fatherName}
-                    </p>
-                    <p>
-                      <span className="font-semibold">வயது:</span> {formData.age}
-                    </p>
-                    <p>
-                      <span className="font-semibold">பிறந்த தேதி:</span>{" "}
-                      {formData.dob}
-                    </p>
-                    <p>
-                      <span className="font-semibold">மாவட்டம்:</span> {formData.district}
-                    </p>
-                    <p>
-                      <span className="font-semibold">மாநிலம்:</span> {formData.state}
-                    </p>
-                    <p>
-                      <span className="font-semibold">ஊர்:</span> {formData.city}
-                    </p>
-                    <p>
-                      <span className="font-semibold">மொபைல்:</span> {formData.mobile}
-                    </p>
+                  <div
+                    className="w-full sm:w-2/3 text-left sm:pl-5 space-y-2"
+                    style={{ fontSize: "0.9rem" }}
+                  >
+                    <p><strong>பெயர்:</strong> {formData.name}</p>
+                    <p><strong>தந்தையின் பெயர்:</strong> {formData.fatherName}</p>
+                    <p><strong>வயது:</strong> {formData.age}</p>
+                    <p><strong>பிறந்த தேதி:</strong> {formData.dob}</p>
+                    <p><strong>மாவட்டம்:</strong> {formData.district}</p>
+                    <p><strong>மாநிலம்:</strong> {formData.state}</p>
+                    <p><strong>ஊர்:</strong> {formData.city}</p>
+                    <p><strong>மொபைல்:</strong> {formData.mobile}</p>
                   </div>
                 </div>
 
-                {/* Footer (Responsive) */}
-                <div className="bg-red-700 text-white text-center py-2 text-xs sm:text-sm font-semibold"> {/* Responsive text */}
+                {/* Footer */}
+                <div
+                  style={{
+                    backgroundColor: "#b91c1c",
+                    color: "#ffffff",
+                    textAlign: "center",
+                    padding: "8px",
+                    fontWeight: "600",
+                    fontSize: "0.85rem",
+                  }}
+                >
                   © 2025 Naidu Sangam - உறுப்பினர் சான்று
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Download Button */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+
+              <button
                 onClick={handleDownloadPDF}
-                className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition mt-8 shadow-lg" // Increased margin
+                className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition mt-8 shadow-lg hover:scale-105 active:scale-95"
               >
                 <Download className="inline-block mr-2 w-5 h-5" />
                 ID அட்டை பதிவிறக்கம்
-              </motion.button>
+              </button>
             </div>
           )}
         </div>
