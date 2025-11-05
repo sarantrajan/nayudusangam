@@ -53,7 +53,7 @@ export default function JoinUs() {
       return;
     }
     setSubmitted(true);
-    const currentIdNumber = parseInt(formData.id.replace("TNK", ""));
+    const currentIdNumber = parseInt(formData.id.replace("NS", ""));
     localStorage.setItem("lastMemberId", currentIdNumber);
   };
 
