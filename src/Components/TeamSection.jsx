@@ -128,7 +128,7 @@ export default function TeamSection() {
           transition={{ duration: 0.8 }}
           className="text-3xl sm:text-4xl font-bold text-[#b30047] mt-16 mb-12"
         >
-          மாநில நிர்வாகிகள் (மகளிர் அணி)
+          கழகத்தின் மாநில நிர்வாகிகள் (மகளிர் அணி)
         </motion.h2>
         {renderTeam(womenTeam, false, false)} {/* Use grid */}
 

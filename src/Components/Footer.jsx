@@ -16,7 +16,7 @@ export default function Footer() {
 
       <div className="relative container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          
+
           {/* About Us */}
           <div className="text-center md:text-left">
             <h2 className="text-xl font-bold mb-4 text-white">About Us</h2>
@@ -81,14 +81,14 @@ export default function Footer() {
                   href="tel:+919942715440"
                   className="hover:text-white transition"
                 >
-                  +91 99427 15440
+                  +91 94427 15440
                 </a>
               </li>
               <li className="flex items-center justify-center md:justify-start">
                 <span className="text-red-500 mr-3 text-lg flex-shrink-0">📧</span>
                 <a
                   href="mailto:tamizhaganaidukoottamaippu@gmail.com"
-                  className="hover:text-white transition break-all" 
+                  className="hover:text-white transition break-words"
                 >
                   tamizhaganaidukoottamaippu@gmail.com
                 </a>
@@ -96,7 +96,7 @@ export default function Footer() {
             </ul>
           </div>
 
-                    {/* 🌍 Google Map */}
+          {/* 🌍 Google Map */}
           <div>
             <h2 className="text-xl font-bold mb-6 text-white text">Our Location</h2>
             <div className="w-full h-52 boxrounded-xl overflow-hidden shadow-lg border border-white/20">
