@@ -4,6 +4,7 @@ import Hero from '../Components/Hero';
 import SuceessGallery from '../Components/SuceessGallery';
 import Footer from '../Components/Footer';
 import CTAsection from '../Components/CTAsection';
+import SubCategoryDisplay from '../Components/SubCategoryDisplay';
 
 function Homepage() {
   return (
@@ -12,6 +13,7 @@ function Homepage() {
       <Hero/>
       <SuceessGallery/>
       <CTAsection/><br />
+      <SubCategoryDisplay />< br/>
       <Footer/>
     </div>
   );

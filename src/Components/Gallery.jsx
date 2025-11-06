@@ -7,16 +7,20 @@ import img5 from "../assets/gal-7.jfif";
 import img6 from "../assets/gal-8.jfif";
 import img7 from "../assets/gal-3.jpg";
 import img8 from "../assets/gal-6.jpg";
+import img9 from "../assets/gal-11.jpg";
+import img10 from "../assets/gal-12.jpg";
+import img11 from "../assets/gal-13.jpg";
+import img12 from "../assets/gal-14.jpg";
 
 const Gallery = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [visibleCount, setVisibleCount] = useState(8); // Increased initial count
   const galleryItems = [
-    { id: 1, title: "நிகழ்வுகள் - 1", image: img1 },
-    { id: 2, title: "நிகழ்வுகள் - 2", image: img2 },
-    { id: 3, title: "நிகழ்வுகள் - 3", image: img3 },
-    { id: 4, title: "நிகழ்வுகள் - 4", image: img4 },
+    { id: 1, title: "நிகழ்வுகள் - 1", image: img9 },
+    { id: 2, title: "நிகழ்வுகள் - 2", image: img10 },
+    { id: 3, title: "நிகழ்வுகள் - 3", image: img11 },
+    { id: 4, title: "நிகழ்வுகள் - 4", image: img12 },
     { id: 5, title: "நிகழ்வுகள் - 5", image: img5 },
     { id: 6, title: "நிகழ்வுகள் - 6", image: img6 },
     { id: 7, title: "நிகழ்வுகள் - 7", image: img7 },
