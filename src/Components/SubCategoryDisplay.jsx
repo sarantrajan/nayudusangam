@@ -57,7 +57,7 @@ function SubCategoryDisplay() {
   return (
     <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg my-8">
       
-      <h1 className="text-2xl font-bold text-center text-blue-800 mb-2">
+      <h1 className="text-2xl font-bold text-center text-orange-800 mb-2">
         தமிழக நாயுடு கூட்டமைப்பு அறக்கட்டளை
       </h1>
       <h2 className="text-xl font-semibold text-center text-red-600 mb-6">
@@ -65,7 +65,7 @@ function SubCategoryDisplay() {
       </h2>
       
       <h3 className="text-lg font-bold text-gray-900 mb-4 text-center border-b-2 pb-2">
-        கீழ்க்கண்ட நாயுடு - நாயக்கர் உட்பிரிவுகள்
+        நாயுடு - நாயக்கர் உட்பிரிவுகள்
       </h3>
 
       <ul className="
